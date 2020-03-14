@@ -105,8 +105,8 @@
           <div class="cart-foot-inner">
             <div class="cart-foot-l">
               <div class="item-all-check">
-                <a href="javascipt:;">
-                <span class="checkbox-btn item-check-btn check">
+                <a href="javascipt:;" v-on:click="toggleCheckAll">
+                <span class="checkbox-btn item-check-btn " v-bind:class="{'check':checkAllFlag}">
                   <svg class="icon icon-ok">
                     <use xlink:href="#icon-ok" /></svg>
                 </span>
@@ -116,10 +116,10 @@
             </div>
             <div class="cart-foot-r">
               <div class="item-total">
-                总价: <span class="total-price">￥89.00元</span>
+                总价: <span class="total-price">{{totalPrice | currency}}</span>
               </div>
               <div class="btn-wrap">
-                <a class="btn btn--red btn--dis">结算</a>
+                <a class="btn btn--red " v-bind:class="{'btn--dis':!checkCount}"  @click="checkOut" >结算</a>
               </div>
             </div>
           </div>
@@ -140,25 +140,7 @@
         </template>
       </modal>
     </div>
-   <!-- <div style="display: none;">
-      <div class="md-modal modal-msg md-modal-transition md-show">
-        <div class="md-modal-inner">
-          <div class="md-top">
-            <button class="md-close">关闭</button>
-          </div>
-          <div class="md-content">
-            <div class="confirm-tips">
-              <p slot="message">你确认要删除此条数据吗?</p>
-            </div>
-            <div class="btn-wrap">
-              <a slot="btnGroup" class="btn btn&#45;&#45;m" href="javascript:;">确认</a>
-              <a slot="btnGroup" class="btn btn&#45;&#45;m btn&#45;&#45;red" href="javascript:;">关闭</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="md-overlay"></div>
-    </div>-->
+
     <!-- 底部内容 -->
   </div>
 
@@ -177,6 +159,7 @@
             return{
                 modalConfirm:false,
                 delItem:'',//准备删除得对象
+                //checkAllFlag:false,
                 cartList:[]
             }
         },
@@ -185,6 +168,30 @@
             NavHeader,
             NavFooter,
             Modal
+        },
+        computed:{
+            checkAllFlag(){
+                //当数组的所有都返回true才返回true
+                return this.cartList.every((item)=>{
+                    return item.checked;
+                })
+            },
+            checkCount(){
+                return this.cartList.some((item)=>{
+                    return item.checked;
+                })
+            },
+            //计算总金额
+            totalPrice(){
+                let money=0;
+                //一旦cartList的元素发生变化就会触发该方法
+                this.cartList.forEach((item)=>{
+                    if (item.checked){
+                        money+=item.productNum*item.productPrice;
+                    }
+                })
+                return money;
+            }
         },
         filters:{
             // currency=> (value) {
@@ -242,6 +249,21 @@
                         //TODO  开始动态金额计算
                     }
                 })
+            },
+            //全选和反选
+            toggleCheckAll(){
+                let flag= !this.checkAllFlag;
+                this.cartList.forEach((item)=>{
+                    item.checked=flag;
+                })
+            },
+            //跳转结算页面
+            checkOut(){
+                if(this.checkCount){
+                    this.$router.push({
+                        path:'/address'
+                    })
+                }
             }
         }
     }
