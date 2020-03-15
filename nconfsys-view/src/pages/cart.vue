@@ -153,7 +153,7 @@
   import Modal from "../components/Modal";
     export default {
         name: "cart",
-        components: {Modal, NavFooter, NavHeader},
+
         //要使用局部data()
         data(){
             return{
@@ -164,7 +164,7 @@
             }
         },
         //引入组件
-        comments:{
+        components:{
             NavHeader,
             NavFooter,
             Modal

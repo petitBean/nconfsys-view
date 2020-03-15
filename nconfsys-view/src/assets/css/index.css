@@ -17,7 +17,9 @@
   content: " ";
   clear: both;
 }
-
+.navbar-login-container{
+  margin-left:-220px;
+}
 .check-step li {
   position: relative;
   float: left;

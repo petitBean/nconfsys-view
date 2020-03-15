@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from "vue-router";
 import Address from './pages/address';
+import Loginpage from './pages/loginpage';
 import Cart from './pages/cart'
 
 //使路由生效
@@ -18,6 +19,11 @@ export default new Router({
       name: 'cart',
       meta:{},
       component: Cart
+    },
+    {
+      path:'/user-login',
+      name:'loginpage',
+      component:Loginpage,
     }
   ]
 })
