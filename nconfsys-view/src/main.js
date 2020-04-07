@@ -11,6 +11,7 @@ import './assets/css/base.css'  //表示当前路径下的/assets/base.css   //m
 import './assets/css/index.css'
 import './assets/css/v-input.css'
 import './assets/css/v-container.css'
+import './assets/css/confsys.css'
 
 Vue.use(VueAxios,axios);
 Vue.use(ViewUI);

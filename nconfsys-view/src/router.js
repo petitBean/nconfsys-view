@@ -1,8 +1,17 @@
 import Vue from 'vue'
 import Router from "vue-router";
 import Address from './pages/address';
-import Loginpage from './pages/loginpage';
+import Loginpage from './pages/login-page';
 import Cart from './pages/cart'
+import Registerpage from './pages/register-page'
+import NconfsysPage from './pages/nconfsys-page'
+import PersonalCenter from './pages/personal-center'
+import ConfManageCenter from './pages/conf-manage-center'
+import SecretePage from './pages/secretary-page'
+import PaperManageCenter from "./pages/paper-manage-center"
+import ConfDetailPage from "./pages/conf-detail-page"
+import PaperViewCenter from "./pages/paper-view-center"
+
 
 //使路由生效
 Vue.use(Router);
@@ -22,8 +31,48 @@ export default new Router({
     },
     {
       path:'/user-login',
-      name:'loginpage',
+      name:'login-page',
       component:Loginpage,
-    }
+    },
+    {
+      path:'/user-register',
+      name:'register-page',
+      component:Registerpage,
+    },
+    {
+      path:'/',
+      name:'nconfsys-page',
+      component:NconfsysPage,
+    },
+    {
+      path:'/personal-center',
+      name:'personal-center',
+      component:PersonalCenter,
+    },
+    {
+      path:'/conf-manage-center',
+      name:'conf-manage-center',
+      component:ConfManageCenter
+    },
+    {
+      path:'/secretepage',
+      name:'secretary-page',
+      component:SecretePage
+    },
+    {
+      path:'/paper-manage-center',
+      name:'paper-manage-center',
+      component:PaperManageCenter
+    },
+    {
+      path:'/conf-detail-page',
+      name:'conf-detail-page',
+      component:ConfDetailPage
+    },
+    {
+      path:'/paper-view-center',
+      name:'paper-view-center',
+      component:PaperViewCenter
+    },
   ]
 })

@@ -1,28 +1,160 @@
 
 
+.v-container-body-bgd-color{
+  background-color: rgb(245, 245, 246)
+}
+
+.a-hover a:hover{
+  color: #2b85e4;
+}
+
+.v-a{
+  display: block;
+  float: left;
+  margin: 15px;
+  font-family: "Adobe 楷体 Std R";
+  font-size: 18px;
+}
 
 .v-container-body{
-  background-color: #f8f8f9;
-  max-width: 1180px;
-  margin-left: auto;
-  margin-bottom: 20px;
-  margin-right: auto;
-  margin-top: 20px;
+  background-color: rgb(245, 245, 246);
+  margin-bottom: 50px;
+  width: 100%;
+  height: 100%;
+  padding: 55px;
+  display: block;
+
 }
 .v-container-content{
-  margin-top: 70px;
-  background-color: white;
+  margin-top: 0px;
+  background-color:#FFFFFF;
   position: relative;
-  left: 25%;
-  width: 50%;
+  left: 20%;
+  top: 15%;
+  width: 60%;
   height: auto;
 }
 .v-form-container{
-   margin: 20px;
-   width: 385px;
-   position: relative;
-   left: 15%;
-   top:10px ;
+  margin: 20px;
+
+  position: relative;
+  width: 385px;
+  left: 20%;
+  top:10px ;
 }
+
+.v-box-shadow{
+  box-shadow: 2px 1px 1px 0px rgba(0,0,0,.15);
+}
+
+.v-header-box-shadow{
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
+}
+
+.v-container-box-shadow{
+  box-shadow: 0 2px 15px rgba(0,0,0,.15);
+}
+
+.border-left{
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: #dcdee2;
+}
+
+.content-title-span{
+  font-size: 16px;
+  font-weight: bolder;
+  font-family:'Microsoft YaHei';
+  display: block;
+  color: #17233d;
+  float: left
+}
+
+.content-title-pane{
+  height: auto;position:
+  relative;width: 100%;
+  text-align: left;
+  padding: 2px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #e8eaec;
+  background-color: #5cadff;
+  overflow: hidden;
+}
+
+.left-menu{
+  background-color: white;
+  overflow: hidden;
+  padding: 10px;
+  display: block;
+  float: left;
+}
+
+.right-content-show{
+  height:auto;
+  width:98%;
+  display: block;
+  float: left;
+  overflow: hidden;
+  margin-left: 0px;
+  background-color: #f8f8f9;
+}
+
+.menu-span{
+  display: block;
+  float:left;
+  margin-left: 23px
+}
+
+.menu-span-icon{
+  display: block;
+  float:left;
+  margin-left: 15px;
+}
+
+.content-pane{
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.left-pane{
+  overflow: hidden;
+  height: 100%;
+  background-color:white;
+  display: block;
+  float: left;
+  width: 20%;
+}
+
+.content-title-icon{
+  float: left;
+  padding: 2px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+
+.right-pane{
+  display: block;
+  float: left;
+  width: 80%;
+  margin-left: 0px;
+}
+
+.content-pane{
+  margin-left: 0px;
+  padding: 0px;
+}
+
+.card-pane{
+
+}
+
+.content-container{
+  overflow: hidden;
+  background-color: white;
+}
+
 
 

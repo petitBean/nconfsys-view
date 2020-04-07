@@ -6,7 +6,7 @@
         <img class="navbar-brand-logo" src="./../assets/image/logo.png">
       </div>
       <div  style="width:100px;display: inline-block;position: absolute;top:15px;bottom: 0;left: 240px;right: 0 ">
-        <span style="font-size: 26px;color: #ff6a00;border-left: 1px solid #999 ; padding-left: 5px"> 登录</span>
+        <span style="font-size: 26px;color: #ff6a00;border-left: 1px solid #999 ; padding-left: 5px">注册</span>
       </div>
       <div style="width: 10%;height:79px;float: right;">
         <div style="margin: 25px">
@@ -21,8 +21,8 @@
 
 <script>
     export default {
-        name: "LHeader",
-        props:['pag'],
+        name: "RHeader",
+        //props:['pag'],
     }
 </script>
 

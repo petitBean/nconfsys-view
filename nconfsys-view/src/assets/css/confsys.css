@@ -1,0 +1,209 @@
+
+.content{
+  width: 100%;
+  height: auto;
+  background-color: #f8f8f9;
+}
+
+.content-top{
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+
+}
+
+.content-bottom{
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.sider-left{
+  position: relative;
+  width: 70%;
+  display: block;
+  float: left;
+}
+.sider-right{
+  position: relative;
+  width: 30%;
+  height: auto;
+  display: block;
+  float: right;
+}
+
+.a-icon{
+  margin-right: 20px;
+  margin-bottom: 5px;
+  margin-top: 12px;
+  font-size: 5px;
+  height: 50px;
+  text-align: center;
+  width: 90px;
+  float: right;
+}
+
+.a-icon:hover{
+  color: #2b85e4;
+}
+
+.a-icon-imag:hover{
+  color: #2b85e4;
+}
+
+.conf-tag{
+  width: auto;
+  padding: 3px;
+}
+
+.search-box{
+  margin: 5px;
+  overflow: hidden;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #dcdee2;
+  padding-left: 20px;
+}
+
+
+.content-bottom{
+  border-style: solid;
+  border-width: 1px;
+  border-color: #dcdee2;
+  padding: 5px;
+  overflow: hidden;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.focused-conf-list{
+  padding: 10px;
+  border-style: solid;
+  border-right-width: 1px;
+  border-left-width: 2px;
+  border-color: #dcdee2;
+}
+
+.bottom-left{
+  position: relative;
+  height: auto;
+  width: 60%;
+  float: left;
+}
+
+.conf-list{
+  border-bottom-style: solid;
+  border-bottom-color: #2b85e4 ;
+  border-bottom-width: 5px;
+
+}
+
+.conf-list-span{
+  display: block;
+  background-color: #c5c8ce;
+  height: 30px;
+  width: 100px;
+  font-size: 20px;
+  font-family: "Hiragino Sans GB", serif;
+}
+
+.bottom-right{
+  padding: 30px;
+  position: relative;
+  height: auto;
+  float: right;
+  width: 39%;
+}
+
+.small-poster-div{
+  margin: 10px;
+  margin-left: 30px;
+  width: 370px;
+  height: 100px;
+}
+
+.hot-conf-icon{
+  color: red;
+  margin: 3px;
+  display: block;
+  float: left;
+}
+
+.hot-conf-span{
+  display: block;
+  float: left;
+  margin: 3px
+}
+
+.conf-title{
+  height: 30px;
+  width: 100%;
+  font-size: 26px;
+}
+
+.conf-menu-icon{
+  display: block ;
+  float: left;
+  width: 40px;
+  text-align: center
+}
+
+.conf-content{
+  color: #515a6e;
+  background-color: #FFFFFF;
+  overflow: hidden;padding: 15px;height: auto
+}
+
+.conf-menu{
+  display: block;
+  overflow: hidden;
+  padding-left: 5px;
+  background-color: #f8f8f9;
+}
+
+.conf-detail{
+  display: block;
+  float: right;
+  margin-right: 80px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #2db7f5
+}
+
+.a-menu:hover{
+  color: #FFFFFF;
+  display: block;
+  background-color: #2baee9;
+}
+
+.a-menu{
+  display: block;
+  background-color: #2baee9;
+  margin: 4px;
+  font-size: 17px;
+  padding: 3px;
+  text-align:center
+}
+
+.menu-list-pane{
+  border-top-style: solid;
+  border-top-width: 0px;
+  border-top-color: #e8eaec;
+  padding-top: 0px;
+  padding-bottom: 50px;
+}
+
+.menu-name{
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #e8eaec;
+  text-align: center;
+  margin-right: 7px;
+  font-size: 16px;
+  font-weight: bold;
+  overflow: hidden;
+  background-color: white;
+}

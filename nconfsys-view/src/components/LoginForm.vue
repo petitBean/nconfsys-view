@@ -11,7 +11,7 @@
       </Input>
     </FormItem>
     <FormItem>
-      <Button type="primary" style="height: 38px;background-color: #ff6a00;border-color: #ff6a00" class="v-input" @click="handleSubmit('formInline')">登录</Button>
+      <Button type="primary" style="height: 38px;background-color: #2d8cf0;border-color: #2d8cf0" class="v-input" @click="handleSubmit('formInline')">登录</Button>
     </FormItem>
     <div style="height: 40px;float: top">
       <div style="margin-right: 10px;float: right">
@@ -35,11 +35,11 @@
                 },
                 ruleInline: {
                     user: [
-                        { required: true, message: 'Please fill in the user name', trigger: 'blur' }
+                        { required: true, message: '请输入用户名', trigger: 'blur' }
                     ],
                     password: [
-                        { required: true, message: 'Please fill in the password.', trigger: 'blur' },
-                        { type: 'string', min: 6, message: 'The password length cannot be less than 6 bits', trigger: 'blur' }
+                        { required: true, message: '请输入密码', trigger: 'blur' },
+                        { type: 'string', min: 6, message: '', trigger: 'blur' }
                     ]
                 }
             }
