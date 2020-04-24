@@ -10,7 +10,7 @@
       </div>
       <div style="width: 10%;height:79px;float: right;">
         <div style="margin: 25px">
-          <a href="#">首页</a>
+          <a href="#" @click="toHome">首页</a>
         </div>
       </div>
     </div>
@@ -23,6 +23,11 @@
     export default {
         name: "RHeader",
         //props:['pag'],
+        methods:{
+            toHome(){
+                this.$router.push('/');
+            }
+        }
     }
 </script>
 

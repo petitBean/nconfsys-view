@@ -11,11 +11,14 @@ import SecretePage from './pages/secretary-page'
 import PaperManageCenter from "./pages/paper-manage-center"
 import ConfDetailPage from "./pages/conf-detail-page"
 import PaperViewCenter from "./pages/paper-view-center"
+import TestPage from './pages/testpage'
+import CreteConfPage from './pages/createConf-page'
+import CompleteConfInfoPage from './pages/completedConfInfo-page'
 
 
 //使路由生效
 Vue.use(Router);
-export default new Router({
+const router= new Router({
   routes:[
     {
       path:'/address',
@@ -41,6 +44,11 @@ export default new Router({
     },
     {
       path:'/',
+      name:'nconfsys-page',
+      component:NconfsysPage,
+    },
+    {
+      path:'/home',
       name:'nconfsys-page',
       component:NconfsysPage,
     },
@@ -74,5 +82,33 @@ export default new Router({
       name:'paper-view-center',
       component:PaperViewCenter
     },
+    {
+      path:'/testpage',
+      name:'testpage',
+      component:TestPage
+    },
+    {
+      path:'/createconf',
+      name:'创建会议',
+      component:CreteConfPage
+    },
+    {
+      path:'/complete-conf-page',
+      name:'完善会议信息',
+      component:CompleteConfInfoPage
+    },
   ]
-})
+});
+//挂在路由导航
+router.beforeEach((to,from,next)=>{
+  if (to.path==='/user-login' || to.path==='/'|| to.path==='/user-register'||to.path==='/conf-detail-page'){
+    return next();//放行
+  }
+  const token=window.sessionStorage.getItem('token');
+ /* if (!token){
+    return next('/user-login');
+  }*/
+  next();
+});
+//暴露出去
+export default router;

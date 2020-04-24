@@ -2,7 +2,7 @@
 // Template version: 1.3.1
 // see http://vuejs-templates.github.io/webpack for documentation.
 
-const path = require('path')
+const path = require('path');
 
 module.exports = {
 
@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/mock': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:8671',
         changeOrigin: false,
         ws: false,
         pathRewrite: {
@@ -20,6 +20,8 @@ module.exports = {
         }
       }
     },
+
+
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

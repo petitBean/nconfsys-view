@@ -170,7 +170,7 @@
       <div clas="footer-pane">
         <nconfsys-footer></nconfsys-footer>
       </div>
-  </div>
+     </div>
    </div>
 </template>
 

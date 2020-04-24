@@ -23,7 +23,56 @@
       <div class="right-pane">
         <div style="">
           <div class="right-content-show border-left" >
-            <div class="notice">
+
+            <div>
+              <div class="now-content-name content-title-pane" style="">
+                <div style="float: left;padding: 2px;margin-left: 5px;margin-right: 5px"><Icon type="ios-navigate" size="20" /></div>
+                <span class="content-title-span" style="">我加入的会议</span>
+              </div>
+              <div class="content-show" style="background-color: #f9fafc;padding: 20px">
+                <action-table :table-header="tableHeader"  :table-data="tableData"  :action-name="actionName"></action-table>
+              </div>
+            </div>
+
+            <div>
+
+              <div class="now-content-name content-title-pane" style="">
+                <div class="content-title-icon">
+                  <Icon type="ios-navigate" size="20" />
+                </div>
+                <span class="content-title-span" style="">我的通知</span>
+              </div>
+              <div class="content-show" style="background-color: #f9fafc;padding: 20px">
+                <List>
+                  <ListItem>
+                    <ListItemMeta avatar="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar" title="This is title" description="This is description, this is description." />
+                    <template slot="action">
+                      <li>
+                        <a href="">标记为已读</a>
+                      </li>
+                      <li>
+                        <a href="">More</a>
+                      </li>
+                    </template>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemMeta avatar="https://dev-file.iviewui.com/userinfoPDvn9gKWYihR24SpgC319vXY8qniCqj4/avatar" title="This is title" description="This is description, this is description." />
+                    <template slot="action">
+                      <li>
+                        <a href="" class="color-primary">标记为已读</a>
+                      </li>
+                      <li>
+                        <a href="">More</a>
+                      </li>
+                    </template>
+                  </ListItem>
+                </List>
+              </div>
+            </div>
+
+
+
+            <div class="notice " v-if="true">
               <div class="now-content-name content-title-pane">
                 <div class="content-title-icon">
                   <Icon type="ios-navigate" size="20" />
@@ -120,6 +169,7 @@
                 </Row>
               </div>
             </div>
+
             <div class="documents" style="overflow: hidden">
               <div class="now-content-name content-title-pane" style="">
                 <div class="content-title-icon">

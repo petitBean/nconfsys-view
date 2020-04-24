@@ -16,12 +16,12 @@
         </div>
         <div style="width: 50px;height:79px;float: right;">
           <div class="a-hover" style="margin: 30px 0 20px 0px; color: black">
-            <a  href="#" >注册</a>
+            <a  href="#" @click="toRegister">注册</a>
           </div>
         </div>
         <div style="width: 50px;height:79px;float: right;">
           <div class="a-hover" style="margin: 30px 0px 20px 0 ;color: black">
-            <a  href="#"   >登录</a>
+            <a  href="#"  @click="toLogin" >登录</a>
           </div>
         </div>
       </div>
@@ -39,6 +39,14 @@
         props:[ ],
         components:{
             DropDownMenu,
+        },
+        methods:{
+            toLogin(){
+                this.$router.push('/user-login');
+            },
+            toRegister(){
+                this.$router.push('/user-register');
+            }
         }
     }
 </script>

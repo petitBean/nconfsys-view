@@ -1,8 +1,8 @@
 <template>
     <div>
       <nconfsys-header></nconfsys-header>
-      <div class="content">
-        <div class="content-top" style="padding-left: 20px;padding-right: 20px;padding-bottom: 3px;padding-top: 2px">
+      <div class="content" style="">
+        <div class="content-top" style="padding-left: 20px;padding-right: 20px;padding-bottom: 3px;padding-top: 2px;">
           <div class="sider-left">
             <div class="search">
               <div class="search-box">
@@ -22,17 +22,20 @@
                       <span style="font-size: 14px;text-align:center;font-family: 'PingFang SC' ;margin: 4px">选择列表显示的会议标签</span>
                     </label>
                   </div>
-                  <tag-check-box></tag-check-box>
+                  <div>
+                    <CheckboxGroup v-model="checkValue">
+                      <Checkbox v-for="item in checkBoxList" v-bind:label="item" border></Checkbox>
+                    </CheckboxGroup>
+                  </div>
                 </div>
               </div>
 
             </div>
           </div>
 
-
           <div class="sider-right">
              <div>
-               <div class="a-icon">
+               <div class="a-icon" @click="toConfManageCenter">
                  <a href="#">
                    <Icon class="a-icon-imag" type="md-folder" size="40"/>
                  </a>
@@ -40,15 +43,15 @@
                    会议管理中心
                  </div>
                </div>
-               <div class="a-icon">
+               <div class="a-icon" @click="toPaperManagCenter">
                  <a href="#">
                  <Icon class="a-icon-imag" type="ios-paper" size="40" />
-               </a>
+                 </a>
                  <div style="float: bottom">
                    论文评阅中心
                  </div>
                </div>
-               <div class="a-icon">
+               <div class="a-icon" @click="toPersonalCenter">
                  <a href="#">
                    <Icon class="a-icon-imag" type="md-contact"  size="40"/>
                  </a>
@@ -60,9 +63,9 @@
           </div>
         </div>
 
-        <div class="content-bottom">
+        <div class="content-bottom" style="background-color: white">
           <!--最多显示n条-->
-          <div class="bottom-left">
+          <div class="bottom-left" style="background-color: white">
             <!-- 会议列表-->
             <div class="conf-list">
               <Tag style="background-color: #2db7f5">
@@ -71,37 +74,13 @@
              <!-- <span class="conf-list-span">会议列表</span>-->
             </div>
             <div class="focused-conf-list">
-              <div class="conf box-border" style="width: 100%;height: 150px;margin: 5px">
-                <div class="conf-title font-title" style=" ">
-                  <span>第一届学术会议</span>
-                </div>
-                <div class="conf-content font-content" style="">
-                  第五届常微分方程与动力系统国际会议(CODEDS2021)将于2021年1月5-7日在三亚举行。本届大会将继续遵循学术性、国际性的原则，特邀国内外常微分方程与动力系统领域内的学者专家前来参会，并做出精彩的报告。CODEDS2021旨在打造一场交流分享最新科研成果和研究方法的学术盛宴！诚邀各位专家和代表的参加
-                </div>
-                <div class="conf-menu" style="">
-                  <div  class="conf-menu-icon" style="">
-                    <Icon type="ios-star-outline"  size="20"/>
-                  </div>
-                  <div class="conf-menu-icon">
-                    <Icon type="ios-thumbs-up-outline" size="20" />
-                  </div>
-                  <div class="conf-menu-icon">
-                    <Icon type="ios-eye-outline" size="23" />
-                  </div>
-                  <div class="conf-detail a-hover" style="">
-                    <a href="#">查看详情>></a>
-                  </div>
 
-
+              <div v-for="item in conferenceList" class="conf box-border" style="width: 100%;height: 160px;margin: 5px">
+                <div class="conf-title font-title" style=" height: 36px">
+                  <span>{{item.confName}}</span>
                 </div>
-              </div>
-
-              <div class="conf box-border" style="width: 100%;height: 150px;margin: 5px">
-                <div class="conf-title font-title" style=" ">
-                  <span>第一届学术会议</span>
-                </div>
-                <div class="conf-content font-content" style="">
-                  第五届常微分方程与动力系统国际会议(CODEDS2021)将于2021年1月5-7日在三亚举行。本届大会将继续遵循学术性、国际性的原则，特邀国内外常微分方程与动力系统领域内的学者专家前来参会，并做出精彩的报告。CODEDS2021旨在打造一场交流分享最新科研成果和研究方法的学术盛宴！诚邀各位专家和代表的参加
+                <div class="conf-content font-content" style="height: 90px">
+                  {{item.confIntroduce}}
                 </div>
                 <div class="conf-menu" style="">
                   <div  class="conf-menu-icon" style="">
@@ -116,65 +95,24 @@
                   <div class="conf-detail a-hover" style="">
                     <a href="#">查看详情>></a>
                   </div>
-
-
-                </div>
-              </div>
-
-              <div class="conf box-border" style="width: 100%;height: 150px;margin: 5px">
-                <div class="conf-title font-title" style=" ">
-                  <span>第一届学术会议</span>
-                </div>
-                <div class="conf-content font-content" style="">
-                  第五届常微分方程与动力系统国际会议(CODEDS2021)将于2021年1月5-7日在三亚举行。本届大会将继续遵循学术性、国际性的原则，特邀国内外常微分方程与动力系统领域内的学者专家前来参会，并做出精彩的报告。CODEDS2021旨在打造一场交流分享最新科研成果和研究方法的学术盛宴！诚邀各位专家和代表的参加
-                </div>
-                <div class="conf-menu" style="">
-                  <div  class="conf-menu-icon" style="">
-                    <Icon type="ios-star-outline"  size="20"/>
-                  </div>
-                  <div class="conf-menu-icon">
-                    <Icon type="ios-thumbs-up-outline" size="20" />
-                  </div>
-                  <div class="conf-menu-icon">
-                    <Icon type="ios-eye-outline" size="23" />
-                  </div>
-                  <div class="conf-detail a-hover" style="">
-                    <a href="#">查看详情>></a>
-                  </div>
-
-
                 </div>
               </div>
             </div>
 
 
           </div>
-          <div class="bottom-right">
+          <div class="bottom-right" style="background-color: white">
             <!--推荐会议的小海报等信息-->
-            <div class="recommand-conf-list">
+            <div class="recommand-conf-list" style="background-color: white">
               <div class="command-conf-show" style="background-color: #2db7f5;margin-right: 25px;padding: 3px;padding-left: 20px">
                 <span>推荐会议展视</span>
               </div>
-              <div class="small-poster-div">
+              <div v-for="item in commandedList" class="small-poster-div" style="border-style: solid;border-color: #2d8cf0;border-width: 1px">
                 <a href="#">
-                 <img style="height: 100%;width: 100%" src="./../assets/image/small-post/huawei.png">
+                 <img style="height: 100%;width: 100%" v-bind:src="item.bigPosterUrl">
                 </a>
               </div>
-              <div class="small-poster-div">
-                <a href="#">
-                  <img style="height: 100%;width: 100%" src="./../assets/image/small-post/huawei.png">
-                </a>
-              </div>
-              <div class="small-poster-div">
-                <a href="#">
-                  <img style="height: 100%;width: 100%" src="./../assets/image/small-post/huawei.png">
-                </a>
-              </div>
-              <div class="small-poster-div">
-                <a href="#">
-                  <img style="height: 100%;width: 100%" src="./../assets/image/small-post/huawei.png">
-                </a>
-              </div>
+
              <!-- 推荐会议的小海报等信息-->
             </div>
             <!--最近举办的会议-->
@@ -243,11 +181,45 @@
             TagCheckBox,
             ConfsysList,
         },
+        mounted(){
+            this.initpage();
+        },
         data(){
             return{
-                placeholder:'会议名/关键字..'
+                placeholder:'会议名/关键字..',
+                conferenceList:[],
+                commandedList:[],
+                tagList:[],
+                countAll:0,
+                checkValue:[],
+                checkBoxList:[],
             }
-        }
+        },
+        methods:{
+            initpage(){
+                console.log(this.checkValue);
+                let url='http://localhost:8671/nconf-gateway/api-conf-service/conf-service/conference/getHomePageVo';
+                this.$http(url).then((response)=>{
+                    let re=response.data;
+                    let data=re.data;
+                    this.conferenceList=data.conferenceList;
+                    this.commandedList=data.commandedList;
+                    this.tagList=data.tagList;
+                    this.countAll=data.countAll;
+                    this.checkBoxList=data.tagList;
+                });
+            },
+            toPersonalCenter(){
+                this.$router.push('/personal-center');
+            },
+            toPaperManagCenter(){
+                this.$router.push('/paper-view-center');
+            },
+            toConfManageCenter(){
+                this.$router.push('/conf-manage-center');
+            }
+        },
+
     }
 </script>
 

@@ -13,6 +13,7 @@
 <script>
     export default {
         name:'TagCheckBox',
+
         data () {
             return {
                 border: ['苹果']
