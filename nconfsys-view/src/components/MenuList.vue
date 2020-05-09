@@ -13,7 +13,7 @@
         name:'MenuList',
         data () {
             return {
-                theme3: 'light',
+                theme3: 'primary',
             }
         },
         methods:{

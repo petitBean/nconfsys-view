@@ -14,6 +14,8 @@ import PaperViewCenter from "./pages/paper-view-center"
 import TestPage from './pages/testpage'
 import CreteConfPage from './pages/createConf-page'
 import CompleteConfInfoPage from './pages/completedConfInfo-page'
+import FinancerPage from './pages/financer-page'
+import PaperUpload from './pages/paper-upload-page'
 
 
 //使路由生效
@@ -96,6 +98,16 @@ const router= new Router({
       path:'/complete-conf-page',
       name:'完善会议信息',
       component:CompleteConfInfoPage
+    },
+    {
+      path:'/financer-page',
+      name:'财务管理',
+      component:FinancerPage
+    },
+    {
+      path:'/paper-upload',
+      name:'提交论文',
+      component:FinancerPage
     },
   ]
 });

@@ -27,23 +27,20 @@
                       <FormItem label="起始时间">
                         <Row  style="width: 600px">
                           <Col span="12">
-                            <DatePicker type="datetimerange" v-model="formItem.dates" placeholder="Select date and time" style="width: 300px"></DatePicker>
+                            <DatePicker type="datetimerange" v-model="formItem.dates" placeholder="选择时间" style="width: 300px"></DatePicker>
                           </Col>
                         </Row>
                       </FormItem>
 
                       <FormItem label="支持在线">
                         <RadioGroup v-model="formItem.isOnline">
-                          <Radio label="male">支持</Radio>
-                          <Radio label="female">不支持</Radio>
+                          <Radio label="支持">支持</Radio>
+                          <Radio label="不支持">不支持</Radio>
                         </RadioGroup>
                       </FormItem>
                       <FormItem label="会议标签">
                         <CheckboxGroup v-model="formItem.tags">
-                          <Checkbox label="计算机"></Checkbox>
-                          <Checkbox label="生物学"></Checkbox>
-                          <Checkbox label="数学"></Checkbox>
-                          <Checkbox label="人工智能"></Checkbox>
+                          <Checkbox  v-for="item in this.allTags" v-bind:label="item.tagName"></Checkbox>
                         </CheckboxGroup>
                       </FormItem>
                       <FormItem>
@@ -81,25 +78,58 @@
         },
         data () {
             return {
+                allTags:[],
                 formItem: {
                     confName: '',
                     keyWords: '',
                     confTopic:'',
                     address:'',
-                    dates:['',''],
+                    dates:[],
                     isOnline: '',
-                    tags: ['', ''],
-                    userId:'',
+                    tags: [],
+                    userName:'',
                 }
             }
         },
+        mounted(){
+            this.init();
+        },
         methods:{
+            init(){
+                let url='http://localhost:8671/nconf-gateway/api-conf-service/conf-service/tag/get_all_tags';
+                let status=0;
+                let times=0;
+               // while (status!==200 && times<5){
+                    this.$http.get(url).then((response)=>{
+                        status=response.status;
+                        this.allTags=response.data.data;
+                        times++;
+                    }).catch((error)=>{
+                        if (error.response){
+                            status=error.response.status;
+                            times++;
+                        }
+                        else {
+                            times++;
+                        }
+                    });
+             //   }
+
+            },
             submit(){
-                this.f.userId=window.sessionStorage.getItem('username');
-                console.log(this.formItem);
+                this.formItem.userName=window.sessionStorage.getItem('username');
+               // console.log(this.formItem);
                 let url='http://localhost:8671/nconf-gateway/api-conf-service/conf-service/conference/createconf';
                 this.$http.post(url,this.formItem).then((response)=>{
-                  console.log(response);
+                  console.log(response.data);
+                  if(response.status===200){
+                      console.log(response.data.data);
+                      window.sessionStorage.setItem('confId',response.data.data.confId)
+                      this.$router.push('/complete-conf-page');
+                  }
+                  else {
+                      this.$Message.error("失败！系统异常！")
+                  }
                 });
             },
             cancel(){

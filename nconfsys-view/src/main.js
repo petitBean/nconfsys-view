@@ -14,7 +14,7 @@ import './assets/css/v-input.css'
 import './assets/css/v-container.css'
 import './assets/css/confsys.css'
 
-import {Button,Upload} from 'element-ui';
+import {Button,Upload,Tag} from 'element-ui';
 Vue.use(Upload);
 
 //全局使用Message

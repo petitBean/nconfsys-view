@@ -50,7 +50,13 @@
                 }
             }
         },
+        mounted(){
+            this.init();
+        },
         methods: {
+            init(){
+                window.sessionStorage.clear();
+            },
             login() {
                 //登录前表单预验证
                 this.$refs.loginFormRef.validate( (valid)=>{

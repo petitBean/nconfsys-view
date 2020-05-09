@@ -9,17 +9,21 @@
                 <div style="overflow: hidden">
                   <div style="float:left;margin:3px">
                     <label>
-                      <span style="font-size: 18px;text-align:center;font-family: 'PingFang SC' ;margin: 4px">搜索会议</span>
+                      <span style="font-size: 15px;font-weight: bolder;color: #464c5b;text-align:center;font-family: 'PingFang SC' ;margin: 4px">搜索会议</span>
                     </label>
                   </div>
                   <div style="float: left">
-                    <search-box :placeholder="placeholder"></search-box>
+                    <div>
+                      <Input placeholder="会议名/关键字" v-model="key" style="width: 300px">
+                        <Icon type="ios-search" slot="suffix" @click="tosearch"/>
+                      </Input>
+                    </div>
                   </div>
                 </div>
                 <div class="conf-tag" style="float: bottom">
                   <div style="float:left;margin:3px">
                     <label>
-                      <span style="font-size: 14px;text-align:center;font-family: 'PingFang SC' ;margin: 4px">选择列表显示的会议标签</span>
+                      <span style="font-size: 15px;font-weight: bolder;color: #464c5b;text-align:center;font-family: 'PingFang SC' ;margin: 4px">选择列表显示的会议标签</span>
                     </label>
                   </div>
                   <div>
@@ -40,17 +44,17 @@
                    <Icon class="a-icon-imag" type="md-folder" size="40"/>
                  </a>
                  <div style="float: bottom">
-                   会议管理中心
+                   创建会议
                  </div>
                </div>
-               <div class="a-icon" @click="toPaperManagCenter">
+               <!--<div class="a-icon" @click="toPaperManagCenter">
                  <a href="#">
                  <Icon class="a-icon-imag" type="ios-paper" size="40" />
                  </a>
                  <div style="float: bottom">
                    论文评阅中心
                  </div>
-               </div>
+               </div>-->
                <div class="a-icon" @click="toPersonalCenter">
                  <a href="#">
                    <Icon class="a-icon-imag" type="md-contact"  size="40"/>
@@ -93,7 +97,7 @@
                     <Icon type="ios-eye-outline" size="23" />
                   </div>
                   <div class="conf-detail a-hover" style="">
-                    <a href="#">查看详情>></a>
+                    <a href="#" @click="todetail(item.confId)">查看详情>></a>
                   </div>
                 </div>
               </div>
@@ -109,7 +113,7 @@
               </div>
               <div v-for="item in commandedList" class="small-poster-div" style="border-style: solid;border-color: #2d8cf0;border-width: 1px">
                 <a href="#">
-                 <img style="height: 100%;width: 100%" v-bind:src="item.bigPosterUrl">
+                 <img style="height: 100%;width: 100%" v-bind:src="'http://localhost:8671/nconf-gateway/api-conf-service/conf-service/img/'+item.bigPosterUrl">
                 </a>
               </div>
 
@@ -186,7 +190,8 @@
         },
         data(){
             return{
-                placeholder:'会议名/关键字..',
+                key:'',
+                placeholder:'',
                 conferenceList:[],
                 commandedList:[],
                 tagList:[],
@@ -199,15 +204,65 @@
             initpage(){
                 console.log(this.checkValue);
                 let url='http://localhost:8671/nconf-gateway/api-conf-service/conf-service/conference/getHomePageVo';
-                this.$http(url).then((response)=>{
-                    let re=response.data;
-                    let data=re.data;
-                    this.conferenceList=data.conferenceList;
-                    this.commandedList=data.commandedList;
-                    this.tagList=data.tagList;
-                    this.countAll=data.countAll;
-                    this.checkBoxList=data.tagList;
+                let status=0;
+                let times=0;
+                let message=this.$Message;
+                while (status!==200 && times<5 ){
+                    this.$http(url).then((response)=>{
+                        let re=response.data;
+                        let data=re.data;
+                        status=response.status;
+                        this.conferenceList=data.conferenceList;
+                        this.commandedList=data.commandedList;
+                        this.tagList=data.tagList;
+                        this.countAll=data.countAll;
+                        this.checkBoxList=data.tagList;
+                    }).catch(function (error) {
+                        status=error.response.status;
+                        times++;
+                        if (error.response) {
+                            status=error.response.status;
+                            times++;
+                            //失败，判断主要的几个状态
+                        } else if (error.request) {
+                            message.error("系统异常！");
+                        } else {
+                            console.log('Error', error.message);
+                            message.error("系统异常！");
+                        }
+                        console.log(error.config);
+                    });
+                    times++;
+                }
+
+            },
+
+            tosearch(){
+                console.log(this.key);
+                let url='http://localhost:8671/nconf-gateway/api-conf-service/conf-service/conference/searche_conf_bykey?key='+this.key;
+                console.log(url);
+                let times=0;
+                let status=0;
+                let message=this.$Message;
+                console.log(this.key);
+                this.$http.get(url).then((response)=>{
+                    console.log(response.data);
+                    this.conferenceList=response.data.data;
+                    status=response.status;
+                }).catch((error)=>{
+                    if (error.response){
+                            status=error.response.status;
+                            times++;
+                    }
+                    else if(error.request){
+                        status=error.request.status;
+                        times++;
+                    }
                 });
+            },
+            todetail(confId){
+                window.sessionStorage.setItem('confId',confId);
+                this.$router.push('/conf-detail-page');
             },
             toPersonalCenter(){
                 this.$router.push('/personal-center');
@@ -216,7 +271,7 @@
                 this.$router.push('/paper-view-center');
             },
             toConfManageCenter(){
-                this.$router.push('/conf-manage-center');
+                this.$router.push('/createconf');
             }
         },
 

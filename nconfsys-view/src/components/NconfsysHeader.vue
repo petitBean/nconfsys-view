@@ -14,12 +14,12 @@
             <drop-down-menu></drop-down-menu>
           </div>
         </div>
-        <div style="width: 50px;height:79px;float: right;">
+        <div v-show="islogin" style="width: 50px;height:79px;float: right;">
           <div class="a-hover" style="margin: 30px 0 20px 0px; color: black">
             <a  href="#" @click="toRegister">注册</a>
           </div>
         </div>
-        <div style="width: 50px;height:79px;float: right;">
+        <div v-if="islogin" style="width: 50px;height:79px;float: right;">
           <div class="a-hover" style="margin: 30px 0px 20px 0 ;color: black">
             <a  href="#"  @click="toLogin" >登录</a>
           </div>
@@ -40,7 +40,21 @@
         components:{
             DropDownMenu,
         },
+        data(){
+            return{
+                islogin:true,
+            }
+        },
+        mounted(){
+            this.init();
+        },
         methods:{
+            init(){
+                let token=window.sessionStorage.getItem('token');
+                if (token!==null){
+                    this.islogin=false;
+                }
+            },
             toLogin(){
                 this.$router.push('/user-login');
             },
