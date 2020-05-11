@@ -113,14 +113,14 @@
               </div>
               <div v-for="item in commandedList" class="small-poster-div" style="border-style: solid;border-color: #2d8cf0;border-width: 1px">
                 <a href="#">
-                 <img style="height: 100%;width: 100%" v-bind:src="'http://localhost:8671/nconf-gateway/api-conf-service/conf-service/img/'+item.bigPosterUrl">
+                 <img style="height: 100%;width: 100%" @click="todetail(item.confId)" v-bind:src="'http://localhost:8671/nconf-gateway/api-conf-service/conf-service/img/'+item.bigPosterUrl">
                 </a>
               </div>
 
              <!-- 推荐会议的小海报等信息-->
             </div>
             <!--最近举办的会议-->
-            <div class="hot-conf-list">
+           <!-- <div class="hot-conf-list">
               <div class="command-conf-show" style=" background-color: #2db7f5;margin-right: 25px;padding: 3px;padding-left: 20px;margin-top: 40px">
                 <span>热门会议</span>
               </div>
@@ -158,7 +158,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div>-->
           </div>
         </div>
       </div>
@@ -265,13 +265,22 @@
                 this.$router.push('/conf-detail-page');
             },
             toPersonalCenter(){
-                this.$router.push('/personal-center');
+                if (window.sessionStorage.getItem('username')===null){
+                    this.$Message.error('请登录');
+                }else {
+                    this.$router.push('/personal-center');
+                }
+
             },
             toPaperManagCenter(){
                 this.$router.push('/paper-view-center');
             },
             toConfManageCenter(){
-                this.$router.push('/createconf');
+                if (window.sessionStorage.getItem('username')===null){
+                    this.$Message.error('请登录');
+                }else {
+                    this.$router.push('/createconf');
+                }
             }
         },
 

@@ -126,6 +126,7 @@
                     <div>金额：<Input type="text" readonly ></Input></div>
                     <span style="font-weight: bolder;font-size: 14px;display: block;float: left">
                       缴费要求
+                      <Input  type="textarea"  placeholder="在此输入缴费相关说明" :rows="8" />
                     </span>
                     <div>
                       <span>
@@ -266,7 +267,7 @@
               </div>
             </div>
 
-            <div class="changepass" v-if="this.menu===6" >
+            <div class="changepass" v-if="this.menu===5" >
               <div class="now-content-name content-title-pane" style="">
                 <div class="content-title-icon">
                   <Icon type="ios-navigate" size="20" />
@@ -308,21 +309,17 @@
                 <div class="content-title-icon">
                   <Icon type="ios-navigate" size="20" />
                 </div>
-                <span class="content-title-span" style="">会议通知</span>
+                <span class="content-title-span" style="">发送通知</span>
               </div>
               <div class="content-show" style="padding: 20px;overflow: hidden">
                 <Menu mode="horizontal"  active-name="1">
-                  <MenuItem name="1" @click.native="myNoticeList">
-                    <Icon type="md-person" />
-                    我的通知
-                  </MenuItem>
                   <MenuItem name="2" @click.native="sendNotice">
                     <Icon type="md-send" />
                     发送通知
                   </MenuItem >
                 </Menu>
                 <!--内容区-->
-                <div style="display: block;height: 600px;width: 100%;" v-show="this.noticemenu===1">
+               <!-- <div style="display: block;height: 600px;width: 100%;" v-show="this.noticemenu===1">
                   <Card style="width:100%;min-height: 320px">
                     <Collapse v-model="value1">
                       <Panel name="1">
@@ -339,9 +336,9 @@
                       </Panel>
                     </Collapse>
                   </Card>
-                </div>
+                </div>-->
 
-                <div style="display: block;height: 600px;width: 100%;" v-show="this.noticemenu===2">
+                <div style="display: block;height: 600px;width: 100%;" v-show="this.noticemenu===1">
                   <Card style="width:100%;min-height: 320px">
                     <div style="color: #333333">
                       <span style="font-weight: bolder;font-size: 14px;display: block;float: left">
@@ -361,7 +358,7 @@
               </div>
             </div>
 
-            <div class="announce" v-show="this.menu===5">
+            <div class="announce" v-show="this.menu===50">
               <div class="now-content-name content-title-pane" style="">
                 <div class="content-title-icon">
                   <Icon type="ios-navigate" size="20" />
@@ -599,16 +596,16 @@
                         name: "4",
                         message: "完善个人信息"
                     },
-                    {
+                   /* {
                         name: "5",
                         message: "创建会议"
+                    },*/
+                    {
+                        name: "5",
+                        message: "发送通知"
                     },
                     {
                         name: "6",
-                        message: "我的通知"
-                    },
-                    {
-                        name: "7",
                         message: "修改密码"
                     },
                 ],
@@ -1068,7 +1065,7 @@
                 this.noticemenu=1;
             },
             sendNotice(){
-                this.noticemenu=2;
+                this.noticemenu=1;
             },
             tosendnotice(){
                 console.log(this.noticedata[0].value);
@@ -1108,7 +1105,9 @@
                this.uploadpapermenu=1;
             },
             toPay(index){
-                window.sessionStorage.setItem('confId',this.manageConfTableData[index].confId);
+
+                this.payParam.confId=this.tableData[index].confId;
+               // window.sessionStorage.setItem('confId',this.manageConfTableData[index].confId);
                 this.menu=100;
                 this.paymenu=1;
             },
@@ -1119,6 +1118,39 @@
             cancelPay(){
                 this.paymenu=0;
                 this.menu=0;
+            },
+            pay(){
+                this.payParam.amount=0;
+                //this.payParam.confId=window.sessionStorage.getItem('confId');
+                this.payParam.userName=window.sessionStorage.getItem('username');
+                let url='http://localhost:8671/nconf-gateway/api-conf-service/conf-service/order/order_pay';
+                this.$http.post(url,this.payParam).then((response)=>{
+                    if (response.status===200){
+                        if(response.data.code===200){
+                            this.$Message.success('成功！');
+                        }
+                        else{
+                            this.$Message.error("失败！");
+                        }
+                    }
+                    else {
+                        this.$Message.error(response.status);
+                    }
+                }).catch((error)=>{
+                    if (error.response){
+                        if (error.response.status===504){
+                            this.$Message.error("网络异常！请重试!")
+                        }
+                        else {
+                            this.$Message.error("请重新登录");
+                            this.$router.push('/user-login');
+                        }
+                    }
+                    else {
+                        this.$Message.error("失败！请重试!")
+                    }
+                });
+
             },
             //资料中心
             handleSuccess(response, file) {

@@ -66,7 +66,7 @@
                     </div>
                   </div>
                   <div style="text-align:center">
-                    <Input v-model="categoryFrom.demand" type="textarea"  placeholder="在此输入缴费相关说明" :rows="8" />
+                    <Input v-model="categoryFrom.payDemand" type="textarea"  placeholder="在此输入缴费相关说明" :rows="8" />
                   </div>
                 </Card>
                 <div>
@@ -129,40 +129,18 @@
                 </div>
                 <div class="content-show" style="padding: 20px;overflow: hidden">
                   <Menu mode="horizontal"  active-name="1">
-                    <MenuItem name="1" @click.native="myNoticeList">
-                      <Icon type="md-person" />
-                      我的通知
-                    </MenuItem>
                     <MenuItem name="2" @click.native="sendNotice">
                       <Icon type="md-send" />
                       发送通知
                     </MenuItem >
                   </Menu>
                   <!--内容区-->
-                  <div style="display: block;height: 600px;width: 100%;" v-show="this.noticemenu===1">
-                    <Card style="width:100%;min-height: 320px">
-                      <Collapse v-model="value1">
-                        <Panel name="1">
-                          史蒂夫·乔布斯
-                          <p slot="content">史蒂夫·乔布斯（Steve Jobs），1955年2月24日生于美国加利福尼亚州旧金山，美国发明家、企业家、美国苹果公司联合创办人。</p>
-                        </Panel>
-                        <Panel name="2">
-                          斯蒂夫·盖瑞·沃兹尼亚克
-                          <p slot="content">斯蒂夫·盖瑞·沃兹尼亚克（Stephen Gary Wozniak），美国电脑工程师，曾与史蒂夫·乔布斯合伙创立苹果电脑（今之苹果公司）。斯蒂夫·盖瑞·沃兹尼亚克曾就读于美国科罗拉多大学，后转学入美国著名高等学府加州大学伯克利分校（UC Berkeley）并获得电机工程及计算机（EECS）本科学位（1987年）。</p>
-                        </Panel>
-                        <Panel name="3">
-                          乔纳森·伊夫
-                          <p slot="content">乔纳森·伊夫是一位工业设计师，现任Apple公司设计师兼资深副总裁，英国爵士。他曾参与设计了iPod，iMac，iPhone，iPad等众多苹果产品。除了乔布斯，他是对苹果那些著名的产品最有影响力的人。</p>
-                        </Panel>
-                      </Collapse>
-                    </Card>
-                  </div>
 
-                  <div style="display: block;height: 600px;width: 100%;" v-show="this.noticemenu===2">
+                  <div style="display: block;height: 600px;width: 100%;" v-show="this.noticemenu===1">
                     <Card style="width:100%;min-height: 320px">
                       <div style="color: #333333">
                       <span style="font-weight: bolder;font-size: 14px;display: block;float: left">
-                        <Cascader :data="noticedata" v-model="noticevalue">
+                        <Cascader :data="noticedata" v-model="noticevalue" @on-change="selectUser">
                         </Cascader>
                       </span>
                         <div style="float: right;margin-bottom: 5px;margin-right: 15px">
@@ -171,7 +149,7 @@
                       </div>
                       <Divider />
                       <div style="text-align:center">
-                        <Input v-model="noticecontent" type="textarea"  placeholder="在此输入通知内容" :rows="8" />
+                        <Input v-model="noticeFrom.content" type="textarea"  placeholder="在此输入通知内容" :rows="8" />
                       </div>
                     </Card>
                   </div>
@@ -307,16 +285,21 @@
                 //notice
                 value1: [],
                 noticevalue: [],
+                noticeFrom:{
+                    confId:'',
+                    range:'',
+                    content:'',
+                },
                 noticedata: [{
-                    value: 'allmanager',
+                    value: '0',
                     label: '所有会议管理员'
                 },
                     {
-                        value: 'alluser',
+                        value: '1',
                         label: '所有用户'
                     },
                     {
-                        value: 'all',
+                        value: '2',
                         label: '所有参会人员'
                     }],
                 noticecontent:'',
@@ -324,7 +307,7 @@
                 //收费标准
                 paymenu:1,
                 payStand:{
-                    dates:[],
+                    //dates:[],
                     amount:'',
                     demand:'',
                     confId:'',
@@ -367,6 +350,12 @@
                      amount:12.8,
                     },
                 ],
+                categoryFrom:{
+                    amount:'',
+                    confId:'',
+                    payDemand:'',
+                    dates:[],
+                },
                 nopayTableHeader:[
                     {
                         title: '用户名',
@@ -389,6 +378,7 @@
                         key: 'amount'
                     },
 
+
                     /* {
                          title: '操作',
                          slot: 'action',
@@ -406,12 +396,6 @@
                     },
                 ],
 
-                categoryFrom:{
-                    amount:'',
-                    confId:'',
-                    payDemand:'',
-                    dates:[],
-                }
             }
         },
 
@@ -428,7 +412,10 @@
                 this.$http.get(url).then((response)=>{
                     if (response.status===200){
                         if(response.data.code===200){
-                            this.categoryFrom=response.data.data.payCategory;
+                            if (response.data.data.payCategory!==null){
+                                this.categoryFrom=response.data.data.payCategory;
+                            }
+                            //
                             this.nopayTableData=response.data.data.nonPayList;
                             this.payedTableData=response.data.data.hasPayList;
                         }
@@ -509,17 +496,54 @@
                 this.noticemenu=1;
             },
             sendNotice(){
-                this.noticemenu=2;
+                this.noticemenu=1;
             },
+
+            selectUser(value, selectedData){
+                console.log('v'+value);
+                this.noticeFrom.range=value[0];
+            },
+
             tosendnotice(){
-                console.log(this.noticedata[0].value);
-                alert(this.noticedata[0]);
-                alert(this.noticecontent);
+                this.noticeFrom.confId=window.sessionStorage.getItem('confId');
+                console.log('bb'+this.noticeFrom);
+                let url='http://localhost:8671/nconf-gateway/api-conf-service/conf-service/mail/sendnotice';
+                this.$http.post(url,this.noticeFrom).then((response)=>{
+                    if (response.status===200){
+                        if (response.data.code===200){
+                            this.$Message.success('成功！');
+                            this.init();
+                        }
+                        else {
+                            this.$Message.error(response.data.message);
+                        }
+                    }
+                    else {
+                        this.$Message.error(response.status);
+                    }
+                }).catch((error)=>{
+                    if (error.response){
+                        if (error.response.status===504){
+                            this.$Message.error("网络异常！请重试!")
+                        }
+                        else {
+                            this.$Message.error("请重新登录");
+                            // this.$router.push('/user-login');
+                        }
+                    }
+                    else {
+                        this.$Message.error("失败！请重试!")
+                    }
+                });
+
             },
+
 
             //收费标准
             submitpayCategory(){
                 let url='http://localhost:8671/nconf-gateway/api-conf-service/conf-service/pay_category/create_one';
+                this.categoryFrom.confId=this.confId;
+                console.log(this.categoryFrom);
                 this.$http.post(url,this.categoryFrom).then((response)=>{
                     if (response.status===200){
                         if (response.data.code===200){

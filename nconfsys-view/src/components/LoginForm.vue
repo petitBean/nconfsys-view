@@ -15,7 +15,7 @@
     </FormItem>
     <div style="height: 40px;float: top">
       <div style="margin-right: 10px;float: right">
-        <a href="/#" style="">免费注册</a>
+        <a href="/#" @click="toRegister" style="">免费注册</a>
       </div>
       <div style="margin-right: 10px;float: right">
         <a href="/#" style="">忘记密码</a>
@@ -56,6 +56,9 @@
         methods: {
             init(){
                 window.sessionStorage.clear();
+            },
+            toRegister(){
+                this.$router.push('/user-register');
             },
             login() {
                 //登录前表单预验证
