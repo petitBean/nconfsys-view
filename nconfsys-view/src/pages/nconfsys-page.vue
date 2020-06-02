@@ -28,8 +28,26 @@
                   </div>
                   <div>
                     <CheckboxGroup v-model="checkValue">
-                      <Checkbox v-for="item in checkBoxList" v-bind:label="item" border></Checkbox>
+                      <Checkbox label="twitter">
+                        <Icon type="logo-twitter"></Icon>
+                        <span>Twitter</span>
+                      </Checkbox>
+                      <Checkbox label="facebook">
+                        <Icon type="logo-facebook"></Icon>
+                        <span>Facebook</span>
+                      </Checkbox>
+                      <Checkbox label="github">
+                        <Icon type="logo-github"></Icon>
+                        <span>Github</span>
+                      </Checkbox>
+                      <Checkbox label="snapchat">
+                        <Icon type="logo-snapchat"></Icon>
+                        <span>Snapchat</span>
+                      </Checkbox>
                     </CheckboxGroup>
+                   <!-- <CheckboxGroup v-model="checkValue">
+                      <Checkbox v-for="item in checkBoxList" v-bind:label="item" border></Checkbox>
+                    </CheckboxGroup>-->
                   </div>
                 </div>
               </div>
@@ -101,9 +119,13 @@
                   </div>
                 </div>
               </div>
+              <template>
+                <div style="margin-bottom: 90px">
+                  <Page :total="100" :page-size="pageSize"	 :current="currentPage"	:page-size-opts="this.pageSizeOpts" @on-change="pageChange" @on-page-size-change="pageSizeChange" show-sizer="true" />
+                  <Divider></Divider>
+                </div>
+              </template>
             </div>
-
-
           </div>
           <div class="bottom-right" style="background-color: white">
             <!--推荐会议的小海报等信息-->
@@ -116,7 +138,6 @@
                  <img style="height: 100%;width: 100%" @click="todetail(item.confId)" v-bind:src="'http://localhost:8671/nconf-gateway/api-conf-service/conf-service/img/'+item.bigPosterUrl">
                 </a>
               </div>
-
              <!-- 推荐会议的小海报等信息-->
             </div>
             <!--最近举办的会议-->
@@ -174,6 +195,7 @@
   import TagCheckBox from "../components/TagCheckBox";
   import ConfsysList from "../components/ConfsysList";
   import ScollDiv from "../components/ScollDiv";
+  import _ from 'lodash'
     export default {
         name: "confsys-page",
         components: {
@@ -184,6 +206,7 @@
             SearchBox,
             TagCheckBox,
             ConfsysList,
+
         },
         mounted(){
             this.initpage();
@@ -191,6 +214,8 @@
         data(){
             return{
                 key:'',
+                currentPage:1,
+                pageSize:5,
                 placeholder:'',
                 conferenceList:[],
                 commandedList:[],
@@ -198,11 +223,45 @@
                 countAll:0,
                 checkValue:[],
                 checkBoxList:[],
+                pageSizeOpts:[5,10,20],
             }
         },
+        created: function () {
+            // `_.debounce` 是一个通过 Lodash 限制操作频率的函数。
+            // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
+            // AJAX 请求直到用户输入完毕才会发出。想要了解更多关于
+            // `_.debounce` 函数 (及其近亲 `_.throttle`) 的知识，
+            // 请参考：https://lodash.com/docs#debounce
+            this.debouncedGetConfList = _.debounce(this.getConf, 1500);
+        },
+        watch:{
+            checkValue:function () {
+               //let selectedList=this.checkValue;
+               this.debouncedGetConfList();
+           }
+        },
         methods:{
+            getConf:function () {
+                this.pageSize=5;
+                this.currentPage=1;
+                 if (this.checkValue.length===0){
+                    this.checkValue= this.checkBoxList;
+                    /*return;*/
+                }
+                let url='http://localhost:8671/nconf-gateway/api-conf-service/conf-service/conference/find_by_tag?tagNameList='+this.checkValue;
+                this.$http.get(url).then((response)=>{
+                    if(response.status===200 && response.data.code===200){
+                        this.conferenceList=response.data.conferenceList;
+                    }
+                    else {
+                        this.$Message.error("请求失败！"+response.status);
+                    }
+                }).catch((error)=>{
+                    console.log("error");
+                });
+            },
             initpage(){
-                console.log(this.checkValue);
+                //console.log(this.checkValue);
                 let url='http://localhost:8671/nconf-gateway/api-conf-service/conf-service/conference/getHomePageVo';
                 let status=0;
                 let times=0;
@@ -235,6 +294,16 @@
                     times++;
                 }
 
+            },
+
+            pageSizeChange(size){
+                this.pageSize=size;
+                alert(this.pageSize);
+            },
+
+            pageChange(page){
+                this.currentPage=page;
+                alert(this.currentPage);
             },
 
             tosearch(){

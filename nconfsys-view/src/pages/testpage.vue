@@ -1,99 +1,82 @@
 <template>
-  <div style="top:100px;width:300px">
-    <el-form :model="form" label-width="120px">
-      <el-form-item label="请输入文件名" required>
-        <el-input v-model="form.fileName" auto-complete="off" class="el-col-width" required></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button size="small" type="primary" @click="handleDownLoad">下载</el-button>
-      </el-form-item>
-      <el-form-item>
-        <el-upload class="upload-demo" :action="uploadUrl" :before-upload="handleBeforeUpload"  :on-error="handleUploadError" :before-remove="beforeRemove" multiple :limit="5" :on-exceed="handleExceed" :file-list="fileList">
-          <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">不超过5Mb</div>
-        </el-upload>
-      </el-form-item>
-    </el-form>
-
+  <div class="pdf" v-show="fileType === 'pdf'">
+    <p class="arrow">
+      <ButtonGroup :size="buttonSize" style="padding-right: 20px;padding-left:10px ">
+        <Button :size="buttonSize" type="default" :disabled="preIsDisable" @click="changePdfPage(0)" >
+          <Icon type="ios-arrow-back" />
+          上一页
+        </Button>
+        <Button :size="buttonSize" type="default" :disabled="nextIsDisable" @click="changePdfPage(1)">
+          下一页
+          <Icon type="ios-arrow-forward" />
+        </Button>
+      </ButtonGroup>
+     第 {{currentPage}}页 /共{{pageCount}}页
+      <Button style="display: block;float: right;margin-bottom: 3px;margin-right: 20px" type="primary" size="small">返回</Button>
+    </p>
+    <pdf
+      :src="src"
+    :page="currentPage"
+    @num-pages="pageCount=$event"
+    @page-loaded="currentPage=$event"
+    @loaded="loadPdfHandler">
+    </pdf>
   </div>
 </template>
 <script>
-
+    import pdf from 'vue-pdf'
     export default {
+        name: 'testpage',
+        components: {
+            pdf
+        },
         data() {
             return {
-                form: {
-                    fileName: '',
-                },
-                uploadUrl: '/file/upload',
-                fileList: []
+                pdfUrl: '../../static/ppp.pdf',
+                buttonSize: 'small',
+                currentPage: 0, // pdf文件页码
+                pageCount: 0, // pdf文件总页数
+                fileType: 'pdf', // 文件类型
+                src:'../../static/ppp.pdf',
+                //src: 'http://localhost:8671/nconf-gateway/api-conf-service/conf-service/doc/f123884b-fff5-4521-a143-95f1a3797760.pdf', // pdf文件地址
             }
         },
-        methods: {
-            //测试下载文件(注意web的上下文)
-            handleDownLoad() {
-                window.location.href = 'http://localhost:8671/nconf-gateway/api-conf-service/conf-service/file/download?fileName=17398f98-cec2-42da-a3f7-5ca97b368063.png' ;
+        computed:{
+            nextIsDisable:()=>{
+               return this.currentPage !== this.pageCount;
             },
-            handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            },
-            beforeRemove(file, fileList) {
-                return this.$confirm(`确定移除 ${ file.name }？`);
-            },
-            handleUploadError(error, file) {
+            preIsDisable:()=>{
+                if (this.currentPage===3||this.currentPage===0){
+                    return true;
+                }
+                else {
+                    return false;
+                }
 
-                this.$notify.error({
-                    title: 'error',
-                    message: '上传出错:' +  error,
-                    type: 'error',
-                    position: 'bottom-right'
-                })
-            },
-            //测试上传文件(注意web的上下文)
-            handleBeforeUpload(file){
-                this.uploadUrl =`/file/upload`
             }
-            //,
-            // handleSubmit() {
-            //   var params = {}
-            //   params.userName = this.form.userName
-            //   params.passWord = this.form.passWord
-            //   params.rememberMe = this.form.rememberMe
-            //   params.inputImageCode = this.form.inputImageCode
-            //   HTTP.checkImageCode(params).then(r => {
-            //     //后台定义的状态码,登录成功后跳转
-            //     if (r.data.code === '200') {
-            //       HTTP.login(params).then(r => {
-            //         //后台定义的状态码,登录成功后跳转
-            //         if (r.data.code === '200') {
-            //           this.$router.push({ name: 'home', params: { user: r.data.user } })
-            //           this.$notify({
-            //             title: 'success',
-            //             message: '登录成功',
-            //             type: 'success',
-            //             position: 'bottom-right'
-            //           })
-            //         } else {
-            //             document.getElementById("img").src="/createImageCode?d='+new Date()*1"; //这里的图片是更换后的图片
-            //           this.$notify.error({
-            //             title: 'error',
-            //             message: '登录失败:' + r.data.msg,
-            //             type: 'error',
-            //             position: 'bottom-right'
-            //           })
-            //         }
-            //       })
-            //     } else {
-            //         document.getElementById("img").src="/createImageCode?d='+new Date()*1"; //这里的图片是更换后的图片
-            //       this.$notify.error({
-            //         title: 'error',
-            //         message: '验证码错误',
-            //         type: 'error',
-            //         position: 'bottom-right'
-            //       })
-            //     }
-            //   })
-            // }
+
+        },
+        created() {
+            // 有时PDF文件地址会出现跨域的情况,这里最好处理一下
+            this.src = pdf.createLoadingTask(this.src)
+        },
+        methods:{
+            // 改变PDF页码,val传过来区分上一页下一页的值,0上一页,1下一页
+            changePdfPage (val) {
+                // console.log(val)
+                if (val === 0 && this.currentPage > 1) {
+                    this.currentPage--
+                    // console.log(this.currentPage)
+                }
+                if (val === 1 && this.currentPage < this.pageCount) {
+                    this.currentPage++;
+                    // console.log(this.currentPage)
+                }
+            },
+            // pdf加载时
+            loadPdfHandler (e) {
+                this.currentPage = 1 // 加载的时候先加载第一页
+            }
         }
     }
 </script>

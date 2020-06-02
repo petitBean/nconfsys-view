@@ -16,7 +16,6 @@
     </div>
   </header>
 
-  <!-- 购物车商品内容 -->
 </template>
 
 <script>

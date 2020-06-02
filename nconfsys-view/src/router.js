@@ -15,9 +15,8 @@ import TestPage from './pages/testpage'
 import CreteConfPage from './pages/createConf-page'
 import CompleteConfInfoPage from './pages/completedConfInfo-page'
 import FinancerPage from './pages/financer-page'
-import PaperUpload from './pages/paper-upload-page'
-
-
+import findpassword from "./pages/findpassword";
+import AdminPage from "./pages/admin-page";
 //使路由生效
 Vue.use(Router);
 const router= new Router({
@@ -108,6 +107,16 @@ const router= new Router({
       path:'/paper-upload',
       name:'提交论文',
       component:FinancerPage
+    },
+    {
+      path:'/findpassword',
+      name:'找回密码',
+      component:findpassword
+    },
+    {
+      path:'/admin',
+      name:'管理员',
+      component:AdminPage
     },
   ]
 });

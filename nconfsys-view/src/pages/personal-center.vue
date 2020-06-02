@@ -71,9 +71,10 @@
                     <Upload :on-success=" handleSuccess"
                             :on-error="handleFormatError"
                             :data="fileParam"
-                            :max-size="20480"
+                            :max-size="204800"
                             action="http://localhost:8671/nconf-gateway/api-conf-service/conf-service/file/uploadpaper">
                       <Button icon="ios-cloud-upload-outline">上传论文</Button>
+                      <p>仅限pdf格式</p>
                     </Upload>
                   </div>
                 </Menu>
