@@ -18,7 +18,7 @@
         <a href="/#" @click="toRegister" style="">免费注册</a>
       </div>
       <div style="margin-right: 10px;float: right">
-        <a href="/#" style="">忘记密码</a>
+        <a href="/#" @click="toFindPass" style="">忘记密码</a>
       </div>
     </div>
   </Form>
@@ -59,6 +59,9 @@
             },
             toRegister(){
                 this.$router.push('/user-register');
+            },
+            toFindPass(){
+                this.$router.push('/findpassword');
             },
             login() {
                 //登录前表单预验证

@@ -54,7 +54,7 @@
                         :on-success=" handleSuccess"
                         :on-error="handleFormatError"
                         :data="fileParam"
-                        :max-size="8192"
+                        :max-size="81920"
                         action="http://localhost:8671/nconf-gateway/api-conf-service/conf-service/file/upload">
                         <Button icon="ios-cloud-upload-outline">上传图片</Button>
                         <div slot="tip" class="el-upload__tip">不超过8Mb</div>

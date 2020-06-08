@@ -27,7 +27,7 @@
                     </label>
                   </div>
                   <div>
-                    <CheckboxGroup v-model="checkValue">
+                  <!--  <CheckboxGroup v-model="checkValue">
                       <Checkbox label="twitter">
                         <Icon type="logo-twitter"></Icon>
                         <span>Twitter</span>
@@ -44,10 +44,10 @@
                         <Icon type="logo-snapchat"></Icon>
                         <span>Snapchat</span>
                       </Checkbox>
-                    </CheckboxGroup>
-                   <!-- <CheckboxGroup v-model="checkValue">
-                      <Checkbox v-for="item in checkBoxList" v-bind:label="item" border></Checkbox>
                     </CheckboxGroup>-->
+                    <CheckboxGroup v-model="checkValue">
+                      <Checkbox v-for="item in checkBoxList" v-bind:label="item" border></Checkbox>
+                    </CheckboxGroup>
                   </div>
                 </div>
               </div>
@@ -121,7 +121,7 @@
               </div>
               <template>
                 <div style="margin-bottom: 90px">
-                  <Page :total="100" :page-size="pageSize"	 :current="currentPage"	:page-size-opts="this.pageSizeOpts" @on-change="pageChange" @on-page-size-change="pageSizeChange" show-sizer="true" />
+                  <Page :total="this.countAll" :page-size="pageSize"	 :current="currentPage"	:page-size-opts="this.pageSizeOpts" @on-change="pageChange" @on-page-size-change="pageSizeChange" :show-sizer='true' />
                   <Divider></Divider>
                 </div>
               </template>
@@ -248,10 +248,13 @@
                     this.checkValue= this.checkBoxList;
                     /*return;*/
                 }
+                // alert(this.checkValue);
                 let url='http://localhost:8671/nconf-gateway/api-conf-service/conf-service/conference/find_by_tag?tagNameList='+this.checkValue;
                 this.$http.get(url).then((response)=>{
                     if(response.status===200 && response.data.code===200){
-                        this.conferenceList=response.data.conferenceList;
+                        console.log(response.data.data);
+                        this.conferenceList=response.data.data.conferenceList;
+                        this.countAll=response.data.data.countAll;
                     }
                     else {
                         this.$Message.error("请求失败！"+response.status);

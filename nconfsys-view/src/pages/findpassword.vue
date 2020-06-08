@@ -42,7 +42,7 @@
               </div>
               <FormItem style="margin: 40px;margin-left: 10px">
                   <Button type="primary" style="width: 400px"  @click="handleSubmit('formValidate')">
-                    <div v-if="this.codeissended===0">获取密码</div>
+                    <div v-if="this.codeissended===0">密码初始化</div>
                     <div v-if="this.codeissended!==0">重新获取</div>
                   </Button>
               </FormItem>
@@ -74,7 +74,7 @@
                 },
                 ruleValidate: {
                     username: [
-                        { required: true, message: '姓名不可为空', trigger: 'blur' }
+                        { required: true, message: '用户名不可为空', trigger: 'blur' }
                     ],
                     email: [
                         { required: true, message: '邮箱不可为空', trigger: 'blur' },
@@ -96,7 +96,8 @@
             handleSubmit (name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.formValidate.username=window.sessionStorage.getItem('username');
+                       // this.formValidate.username=window.sessionStorage.getItem('username');
+                        console.log(this.formValidate1.email+this.formValidate1.username);
                         let url='http://localhost:8671/nconf-gateway/api-conf-service/conf-service/user/findpassword?userName='
                         +this.formValidate1.username
                         +'&email='+this.formValidate1.email;
